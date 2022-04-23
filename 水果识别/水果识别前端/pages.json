@@ -1,0 +1,37 @@
+{
+	"pages": [
+		{
+			"path": "pages/index",
+			"style": {
+				"navigationBarTitleText": "水果识别",
+				"navigationBarBackgroundColor": "#07c160"
+			}
+		},
+		{
+			"path": "pages/imgload",
+			"style": {
+				"navigationBarTitleText": "上传图片",
+				"navigationBarBackgroundColor": "#07c160"
+			}
+		},
+		{
+			"path": "pages/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationBarBackgroundColor": "#07c160",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/webview",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "水果识别平台",
+		"navigationBarBackgroundColor": "#07c160"
+	}
+}

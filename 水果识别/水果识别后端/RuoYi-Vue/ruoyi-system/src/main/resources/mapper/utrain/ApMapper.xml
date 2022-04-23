@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.utrain.mapper.ApMapper">
+    
+    <resultMap type="Ap" id="ApResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="time"    column="time"    />
+        <result property="state"    column="state"    />
+        <result property="appointment"    column="appointment"    />
+        <result property="kind"    column="kind"    />
+        <result property="qname"    column="qname"    />
+        <result property="phone"    column="phone"    />
+    </resultMap>
+
+    <sql id="selectApVo">
+        select id, name, province, city, district, time, state, appointment, kind, qname, phone from ap
+    </sql>
+
+    <select id="selectApList" parameterType="Ap" resultMap="ApResult">
+        <include refid="selectApVo"/>
+        <where>  
+            <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="district != null  and district != ''"> and district = #{district}</if>
+            <if test="time != null "> and time = #{time}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="appointment != null  and appointment != ''"> and appointment = #{appointment}</if>
+            <if test="kind != null  and kind != ''"> and kind = #{kind}</if>
+            <if test="qname != null  and qname != ''"> and qname like concat('%', #{qname}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+        </where>
+    </select>
+    
+    <select id="selectApById" parameterType="String" resultMap="ApResult">
+        <include refid="selectApVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAp" parameterType="Ap">
+        insert into ap
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="district != null and district != ''">district,</if>
+            <if test="time != null">time,</if>
+            <if test="state != null">state,</if>
+            <if test="appointment != null">appointment,</if>
+            <if test="kind != null">kind,</if>
+            <if test="qname != null">qname,</if>
+            <if test="phone != null">phone,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="district != null and district != ''">#{district},</if>
+            <if test="time != null">#{time},</if>
+            <if test="state != null">#{state},</if>
+            <if test="appointment != null">#{appointment},</if>
+            <if test="kind != null">#{kind},</if>
+            <if test="qname != null">#{qname},</if>
+            <if test="phone != null">#{phone},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAp" parameterType="Ap">
+        update ap
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="district != null and district != ''">district = #{district},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="appointment != null">appointment = #{appointment},</if>
+            <if test="kind != null">kind = #{kind},</if>
+            <if test="qname != null">qname = #{qname},</if>
+            <if test="phone != null">phone = #{phone},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApById" parameterType="String">
+        delete from ap where id = #{id}
+    </delete>
+
+    <delete id="deleteApByIds" parameterType="String">
+        delete from ap where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

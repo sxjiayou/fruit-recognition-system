@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.image.mapper.ImageMapper">
+    
+    <resultMap type="Image" id="ImageResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="image"    column="image"    />
+        <result property="mark"    column="mark"    />
+    </resultMap>
+
+    <sql id="selectImageVo">
+        select id, name, image, mark from image
+    </sql>
+
+    <select id="selectImageList" parameterType="Image" resultMap="ImageResult">
+        <include refid="selectImageVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="image != null  and image != ''"> and image = #{image}</if>
+            <if test="mark != null  and mark != ''"> and mark = #{mark}</if>
+        </where>
+    </select>
+    
+    <select id="selectImageById" parameterType="Long" resultMap="ImageResult">
+        <include refid="selectImageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertImage" parameterType="Image" useGeneratedKeys="true" keyProperty="id">
+        insert into image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="image != null">image,</if>
+            <if test="mark != null and mark != ''">mark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="image != null">#{image},</if>
+            <if test="mark != null and mark != ''">#{mark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateImage" parameterType="Image">
+        update image
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="mark != null and mark != ''">mark = #{mark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteImageById" parameterType="Long">
+        delete from image where id = #{id}
+    </delete>
+
+    <delete id="deleteImageByIds" parameterType="String">
+        delete from image where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

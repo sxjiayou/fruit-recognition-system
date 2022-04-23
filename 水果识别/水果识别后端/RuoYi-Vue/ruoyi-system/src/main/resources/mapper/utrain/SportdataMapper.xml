@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.utrain.mapper.SportdataMapper">
+    
+    <resultMap type="Sportdata" id="SportdataResult">
+        <result property="qid"    column="qid"    />
+        <result property="qkind"    column="qkind"    />
+        <result property="qname"    column="qname"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="street"    column="street"    />
+        <result property="environ"    column="environ"    />
+        <result property="pnumber"    column="pnumber"    />
+        <result property="qimage"    column="qimage"    />
+        <result property="appointment"    column="appointment"    />
+        <result property="qnumber"    column="qnumber"    />
+    </resultMap>
+
+    <sql id="selectSportdataVo">
+        select qid, qkind, qname, province, city, district, street, environ, pnumber, qimage, appointment, qnumber from sportdata
+    </sql>
+
+    <select id="selectSportdataList" parameterType="Sportdata" resultMap="SportdataResult">
+        <include refid="selectSportdataVo"/>
+        <where>  
+            <if test="qid != null "> and qid = #{qid}</if>
+            <if test="qkind != null  and qkind != ''"> and qkind = #{qkind}</if>
+            <if test="qname != null  and qname != ''"> and qname like concat('%', #{qname}, '%')</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="district != null  and district != ''"> and district = #{district}</if>
+            <if test="street != null  and street != ''"> and street = #{street}</if>
+            <if test="environ != null  and environ != ''"> and environ = #{environ}</if>
+            <if test="pnumber != null  and pnumber != ''"> and pnumber = #{pnumber}</if>
+            <if test="qimage != null  and qimage != ''"> and qimage = #{qimage}</if>
+            <if test="appointment != null  and appointment != ''"> and appointment = #{appointment}</if>
+            <if test="qnumber != null  and qnumber != ''"> and qnumber = #{qnumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectSportdataByQid" parameterType="Long" resultMap="SportdataResult">
+        <include refid="selectSportdataVo"/>
+        where qid = #{qid}
+    </select>
+        
+    <insert id="insertSportdata" parameterType="Sportdata" useGeneratedKeys="true" keyProperty="qid">
+        insert into sportdata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="qkind != null and qkind != ''">qkind,</if>
+            <if test="qname != null and qname != ''">qname,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="district != null and district != ''">district,</if>
+            <if test="street != null">street,</if>
+            <if test="environ != null">environ,</if>
+            <if test="pnumber != null">pnumber,</if>
+            <if test="qimage != null">qimage,</if>
+            <if test="appointment != null">appointment,</if>
+            <if test="qnumber != null and qnumber != ''">qnumber,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="qkind != null and qkind != ''">#{qkind},</if>
+            <if test="qname != null and qname != ''">#{qname},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="district != null and district != ''">#{district},</if>
+            <if test="street != null">#{street},</if>
+            <if test="environ != null">#{environ},</if>
+            <if test="pnumber != null">#{pnumber},</if>
+            <if test="qimage != null">#{qimage},</if>
+            <if test="appointment != null">#{appointment},</if>
+            <if test="qnumber != null and qnumber != ''">#{qnumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSportdata" parameterType="Sportdata">
+        update sportdata
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="qkind != null and qkind != ''">qkind = #{qkind},</if>
+            <if test="qname != null and qname != ''">qname = #{qname},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="district != null and district != ''">district = #{district},</if>
+            <if test="street != null">street = #{street},</if>
+            <if test="environ != null">environ = #{environ},</if>
+            <if test="pnumber != null">pnumber = #{pnumber},</if>
+            <if test="qimage != null">qimage = #{qimage},</if>
+            <if test="appointment != null">appointment = #{appointment},</if>
+            <if test="qnumber != null and qnumber != ''">qnumber = #{qnumber},</if>
+        </trim>
+        where qid = #{qid}
+    </update>
+
+    <delete id="deleteSportdataByQid" parameterType="Long">
+        delete from sportdata where qid = #{qid}
+    </delete>
+
+    <delete id="deleteSportdataByQids" parameterType="String">
+        delete from sportdata where qid in 
+        <foreach item="qid" collection="array" open="(" separator="," close=")">
+            #{qid}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.utrain.mapper.AdviseMapper">
+    
+    <resultMap type="Advise" id="AdviseResult">
+        <result property="id"    column="id"    />
+        <result property="data"    column="data"    />
+        <result property="cimage"    column="cimage"    />
+        <result property="name"    column="name"    />
+        <result property="phone"    column="phone"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="qname"    column="qname"    />
+    </resultMap>
+
+    <sql id="selectAdviseVo">
+        select id, data, cimage, name, phone, province, city, district, qname from advise
+    </sql>
+
+    <select id="selectAdviseList" parameterType="Advise" resultMap="AdviseResult">
+        <include refid="selectAdviseVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="data != null  and data != ''"> and data = #{data}</if>
+            <if test="cimage != null  and cimage != ''"> and cimage = #{cimage}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="district != null  and district != ''"> and district = #{district}</if>
+            <if test="qname != null  and qname != ''"> and qname like concat('%', #{qname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAdviseById" parameterType="Long" resultMap="AdviseResult">
+        <include refid="selectAdviseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAdvise" parameterType="Advise">
+        insert into advise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="data != null and data != ''">data,</if>
+            <if test="cimage != null">cimage,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="district != null and district != ''">district,</if>
+            <if test="qname != null and qname != ''">qname,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="data != null and data != ''">#{data},</if>
+            <if test="cimage != null">#{cimage},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="district != null and district != ''">#{district},</if>
+            <if test="qname != null and qname != ''">#{qname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAdvise" parameterType="Advise">
+        update advise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="data != null and data != ''">data = #{data},</if>
+            <if test="cimage != null">cimage = #{cimage},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="district != null and district != ''">district = #{district},</if>
+            <if test="qname != null and qname != ''">qname = #{qname},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAdviseById" parameterType="Long">
+        delete from advise where id = #{id}
+    </delete>
+
+    <delete id="deleteAdviseByIds" parameterType="String">
+        delete from advise where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
